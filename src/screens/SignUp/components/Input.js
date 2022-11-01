@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text } from "react-native";
+import { View, TextInput, StyleSheet} from "react-native";
 
-export default function Input({ label, placeHolder, password = false, icon, setText }) {
+export default function Input({ placeHolder, password = false, icon, setText, validate }) {
     const [visible, setVisible] = useState(password)
     
     return<>
@@ -12,6 +12,7 @@ export default function Input({ label, placeHolder, password = false, icon, setT
                 secureTextEntry={password} 
                 placeholderTextColor={'#FFB400'}
                 onChangeText={setText}
+                onTextInput={validate}
             />
         </View>
     </>
