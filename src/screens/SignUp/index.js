@@ -14,9 +14,9 @@ export default function SignUp(){
     const nameRegex = /^[a-záàâãéèêíïóôõöúçñ]+([\ a-záàâãéèêíïóôõöúçñ]+$)/gi
     const cpfRegex = /^[0-9]{11}$/g
 
-    function validate(regex, input){
-        if(regex.test(input) && !spaceRegex.test(input)) console.log('Passou')
-        else console.log('Não passou')
+    function isValid(regex, input){
+        if(regex.test(input) && !spaceRegex.test(input)) return true
+        else return false
     }
 
     function validatePassword() {
@@ -32,10 +32,10 @@ export default function SignUp(){
     return(
         <View style={styles.screen}>
             <Text style={styles.text}>Pagina de Cadastro</Text>
-            <Input placeHolder={'Name'} setText={setName} validate={() => validate(nameRegex, name)}/>
-            <Input placeHolder={'CPF: 12345678900'} setText={setCpf} validate={() => validate(cpfRegex, cpf)}/>
-            <Input placeHolder={'Password'} password={true} setText={setPassword}/>
-            <Input placeHolder={'Confirm the password'} password={true} setText={setConfirmPass} validate={validatePassword}/>
+            <Input placeHolder={'Name'} setText={setName} isValid={() => isValid(nameRegex, name)}/>
+            <Input placeHolder={'CPF: 12345678900'} setText={setCpf} isValid={() => isValid(cpfRegex, cpf)} keyboardType={'numeric'} maxLength={11}/>
+            <Input placeHolder={'Password'} isPassword={true} setText={setPassword}/>
+            <Input placeHolder={'Confirm the password'} isPassword={true} setText={setConfirmPass} isValid={validatePassword}/>
             <Button label={'Sign In'} onPress={signIn}></Button>
         </View>
     )
