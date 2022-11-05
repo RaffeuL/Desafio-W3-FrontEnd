@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text} from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function Input({ iconName, error, ...props }) {
-    const [visible, setVisible] = useState(false)
+export default function Input({ iconName, error, isHide = false, ...props }) {
+    const [isFocused, setIsFocused] = useState(false)
+    const [hide, setHide] = useState(isHide)
     
     return<>
         <View style={styles.field}>
@@ -12,8 +13,12 @@ export default function Input({ iconName, error, ...props }) {
                 style={styles.input}
                 autoCapitalize='none'
                 placeholderTextColor={'#FFB400'}
+                secureTextEntry={hide}
+                onFocus={() => {onFocus(); setIsFocused(true)}}
+                onBlur={() => {setIsFocused(false)}}
                 {...props}
             /> 
+            {iconName === 'lock' && <MaterialCommunityIcons name={hide ? 'eye' : 'eye-off'} size={24} color="white" onPress={() => setHide(!hide)}/>}
         </View>
         {error && <Text style={styles.errorText}>{error}</Text>}
     </>
@@ -34,7 +39,7 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        width: '100%',
+        width: '80%',
         marginStart: '2%',
         color: '#FFB400'
     },

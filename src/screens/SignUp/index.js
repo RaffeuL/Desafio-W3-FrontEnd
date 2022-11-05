@@ -68,9 +68,9 @@ export default function SignUp(){
         <View style={styles.screen}>
             <Text style={styles.text}>Pagina de Cadastro</Text>
             <Input placeholder={'Name'} iconName={'account-circle'} onChangeText={(text) => handleOnChange(text, 'name')} error={errors.name} onFocus={() => handleError(null, 'name')}/>
-            <Input placeholder={'CPF: 12345678900'} onChangeText={(text) => handleOnChange(text, 'cpf')}  keyboardType={'numeric'} maxLength={11} error={errors.cpf} onFocus={() => handleError(null, 'cpf')}/>
-            <Input placeholder={'Password'} iconName={'eye'} secureTextEntry onChangeText={(text) => handleOnChange(text, 'password')} error={errors.password} onFocus={() => handleError(null, 'password')}/>
-            <Input placeholder={'Confirm the password'} secureTextEntry onChangeText={(text) => handleOnChange(text, 'confirmPassword')} error={errors.confirmPassword} onFocus={() => handleError(null, 'confirmPassword')}/>
+            <Input placeholder={'CPF: 12345678900'} iconName={'card-account-details'} onChangeText={(text) => handleOnChange(text, 'cpf')}  keyboardType={'numeric'} maxLength={11} error={errors.cpf} onFocus={() => handleError(null, 'cpf')}/>
+            <Input placeholder={'Password'} iconName={'lock'} isHide={true} onChangeText={(text) => handleOnChange(text, 'password')} error={errors.password} onFocus={() => handleError(null, 'password')}/>
+            <Input placeholder={'Confirm the password'} iconName={'lock'} isHide={true} onChangeText={(text) => handleOnChange(text, 'confirmPassword')} error={errors.confirmPassword} onFocus={() => handleError(null, 'confirmPassword')}/>
             <Button label={'Sign In'} onPress={validate}></Button>
         </View>
     )
