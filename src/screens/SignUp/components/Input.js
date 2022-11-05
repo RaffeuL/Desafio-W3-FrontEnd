@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text} from "react-native";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function Input({ placeHolder, isPassword = false, icon, setText, isValid, keyboardType = 'default', maxLength = undefined }) {
-    const [visible, setVisible] = useState(isPassword)
+export default function Input({ iconName, error, ...props }) {
+    const [visible, setVisible] = useState(false)
     
     return<>
         <View style={styles.field}>
+            <MaterialCommunityIcons name={iconName} size={24} color="white"/>
             <TextInput
                 style={styles.input}
-                placeholder={placeHolder}
-                secureTextEntry={isPassword} 
+                autoCapitalize='none'
                 placeholderTextColor={'#FFB400'}
-                onChangeText={setText}
-                onTextInput={isValid}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-            />  
+                {...props}
+            /> 
         </View>
+        {error && <Text style={styles.errorText}>{error}</Text>}
     </>
 }
 
@@ -36,11 +35,11 @@ const styles = StyleSheet.create({
 
     input: {
         width: '100%',
-        marginStart: '3%',
+        marginStart: '2%',
         color: '#FFB400'
     },
     errorText: {
-        color: 'red'
+        color: '#FFFFFF'
     }
 
 })
