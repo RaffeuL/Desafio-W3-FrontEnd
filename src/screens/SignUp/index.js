@@ -33,7 +33,7 @@ export default function SignUp(){
             handleError('Please input your CPF', 'cpf')
             valid = false
         }else if(!cpfRegex.test(cpf)){
-            handleError('CPF cannot contain letters or simbols and must have 11 numbers', 'cpf')
+            handleError('CPF cannot contain letters or simbols and should have 11 numbers', 'cpf')
             valid = false
         }
 
@@ -41,12 +41,12 @@ export default function SignUp(){
             handleError('Please input your password', 'password')
             valid = false
         }else if(password.length < 8){
-            handleError('The password shold have more than 8 characters', 'password')
+            handleError('The password should have more than 8 characters', 'password')
             valid = false
         }
 
         if(password !== confirmPassword){
-            handleError('As senhas não são iguais', 'confirmPassword')
+            handleError('Passwords are different', 'confirmPassword')
             valid = false
         }
 
