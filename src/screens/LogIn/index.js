@@ -47,7 +47,11 @@ export default function LogIn() {
     }
 
     function login() {
-        console.log('Log In')
+        if(agency === '1234' && account === '12345678' && password === '12345678'){
+            console.log('login')
+        }else{
+            Alert.alert('Error', 'Invalid credentials')
+        }
     }
 
     return <>
