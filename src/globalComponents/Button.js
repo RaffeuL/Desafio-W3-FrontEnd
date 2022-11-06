@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderWidth: 2,
         borderRadius: 8,
-        borderColor: '#FFB400',
         marginVertical: 12,
+        backgroundColor: '#FFB400'
     },
     text: {
-        color: '#FFB400',
+        color: '#232323',
         fontSize: 16,
         lineHeight: 26,
         fontWeight: 'bold',

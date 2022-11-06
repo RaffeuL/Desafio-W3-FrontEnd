@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Input from "./components/Input";
-import Button from "./components/Button";
+import Input from "../../globalComponents/Input";
+import Button from "../../globalComponents/Button";
 
 export default function SignUp(){
 
