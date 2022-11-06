@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert, Keyboard } from "react-native";
 import Button from "../../globalComponents/Button";
 import Input from "../../globalComponents/Input";
 
@@ -10,11 +11,15 @@ export default function LogIn() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({})
 
+    const navigation = useNavigation()
+
     function handleError(errorMenssage, input){
         setErrors(prevState => ({ ...prevState, [input]: errorMenssage }))
     }
 
     function validate() {
+        Keyboard.dismiss();
+
         let valid = true
         const agencyRegex = /^[0-9]{4}$/g
         const accountRegex = /^[0-9]{8}$/g
@@ -48,7 +53,7 @@ export default function LogIn() {
 
     function login() {
         if(agency === '1234' && account === '12345678' && password === '12345678'){
-            console.log('login')
+            navigation.navigate('TransferScreen')
         }else{
             Alert.alert('Error', 'Invalid credentials')
         }

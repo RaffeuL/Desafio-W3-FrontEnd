@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 
@@ -16,6 +16,8 @@ export default function SignUp(){
     }
     
     function validate(){
+        Keyboard.dismiss();
+
         let valid = true
         const spaceRegex = /\s{2,}/
         const nameRegex = /^[a-záàâãéèêíïóôõöúçñ]+([\ a-záàâãéèêíïóôõöúçñ]+$)/gi
