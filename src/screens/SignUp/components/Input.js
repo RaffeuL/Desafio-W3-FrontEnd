@@ -7,6 +7,7 @@ export default function Input({ iconName, error, isHide = false, ...props }) {
     const [hide, setHide] = useState(isHide)
     
     return<>
+        {error && <Text style={styles.errorText}>{error}</Text>}
         <View style={styles.field}>
             <MaterialCommunityIcons name={iconName} size={24} color="white"/>
             <TextInput
@@ -20,7 +21,6 @@ export default function Input({ iconName, error, isHide = false, ...props }) {
             /> 
             {iconName === 'lock' && <MaterialCommunityIcons name={hide ? 'eye' : 'eye-off'} size={24} color="white" onPress={() => setHide(!hide)}/>}
         </View>
-        {error && <Text style={styles.errorText}>{error}</Text>}
     </>
 }
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     field: {
         width: '90%',
         height: 50,
-        marginVertical: 12,
+        marginVertical: 10,
         marginHorizontal: 12,
         borderWidth: 2,
         padding: 10,
@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
         color: '#FFB400'
     },
     errorText: {
-        color: '#FFFFFF'
+        marginHorizontal: 12,
+        color: 'red'
     }
 
 })
