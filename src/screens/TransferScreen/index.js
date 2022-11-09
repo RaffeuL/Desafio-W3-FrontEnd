@@ -18,8 +18,8 @@ export default function TransferScreen() {
   function validate() {
       Keyboard.dismiss();
       let valid = true
-      const agencyRegex = /^[0-9]{4}$/g
-      const accountRegex = /^[0-9]{8}$/g
+      const agencyRegex = /^[0-9]{1,4}$/g
+      const accountRegex = /^[0-9]{1,8}$/g
       const amountRegex = /^[0-9]{1,}$/g
 
       if (!agency) {
@@ -42,10 +42,10 @@ export default function TransferScreen() {
           handleError('Please input the amount', 'amount')
           valid = false
       } else if (amount <= 0) {
-          handleError('Amount cannot be negative', 'amount')
+          handleError('Amount cannot be negative or null', 'amount')
           valid = false
       }else if(!amountRegex.test(amount)){
-          handleError('Amount cannot contain letters', 'amount')
+          handleError('Amount cannot contain letters or simbols()$$$;', 'amount')
           valid = false
       }
 

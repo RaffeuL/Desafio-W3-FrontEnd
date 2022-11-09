@@ -21,14 +21,14 @@ export default function LogIn() {
         Keyboard.dismiss();
 
         let valid = true
-        const agencyRegex = /^[0-9]{4}$/g
-        const accountRegex = /^[0-9]{8}$/g
+        const agencyRegex = /^[0-9]{1,4}$/g
+        const accountRegex = /^[0-9]{1,8}$/g
 
         if (!agency) {
             handleError('Please input your agency', 'agency')
             valid = false
         } else if (!agencyRegex.test(agency)) {
-            handleError('Agency cannot contain letters and should have 4 digits', 'agency')
+            handleError('Agency cannot contain letters and should have 4 digits or less', 'agency')
             valid = false
         }
 
@@ -36,7 +36,7 @@ export default function LogIn() {
             handleError('Please input your account', 'account')
             valid = false
         } else if (!accountRegex.test(account)) {
-            handleError('Account Number cannot contain letters and should have 8 digits', 'account')
+            handleError('Account Number cannot contain letters and should have 8 digits or less', 'account')
             valid = false
         }
 
