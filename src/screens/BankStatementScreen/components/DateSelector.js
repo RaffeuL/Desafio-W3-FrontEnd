@@ -18,7 +18,9 @@ export default function DateSelector({buttonLabel, date, onChange, show, onPress
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.text}>{buttonLabel}</Text>
         </TouchableOpacity>
-        <Text style={styles.dateText}>{formatDate(date)}</Text>
+        <View style={styles.textField}>
+            <Text style={styles.dateText}>{formatDate(date)}</Text>
+        </View>
         {show && <DateTimePicker value={date ? date : new Date()} onChange={onChange}></DateTimePicker>}
     </View>
     </>
@@ -30,18 +32,24 @@ const styles = StyleSheet.create({
         height: 50,
         marginVertical: 10,
         marginHorizontal: 12,
-        borderWidth: 2,
-        borderRadius:8,
-        borderColor: '#FFB400',
         flexDirection:'row',
     },
+
+    textField: {
+        width: '67%',
+        marginLeft: '3%',
+        borderWidth: 2,
+        borderRadius: 8,
+        borderColor: '#FFB400',
+        flexDirection:'row',
+        justifyContent: 'center',
+    },
+
     button: {
-        width: '40%',
-        height: '100%',
-        padding: 8,
-        borderWidth: 1,
+        width: '30%',
         borderRadius: 8,
         backgroundColor: '#FFB400',
+        justifyContent: 'center',
     },
 
     text: {
@@ -49,14 +57,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         lineHeight: 26,
         fontWeight: 'bold',
-        textAlign: 'center',
+        alignSelf: 'center',
     },
+    
     dateText: {
         color: '#FFB400',
         fontSize: 20,
         lineHeight: 26,
-        marginLeft: 20,
-        alignSelf: 'center'
+        textAlignVertical: 'center',
     },
     errorText: {
         marginHorizontal: 12,
