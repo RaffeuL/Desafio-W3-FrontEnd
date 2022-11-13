@@ -10,18 +10,19 @@ export default function Button({ label, onPress }) {
 const styles = StyleSheet.create({
     button: {
         width: '55%',
-        padding: 12,
+        height: 60,
         alignSelf: "center",
         borderWidth: 2,
         borderRadius: 8,
         marginVertical: 12,
-        backgroundColor: '#FFB400'
+        backgroundColor: '#FFB400',
+        justifyContent: 'center',
     },
     text: {
         color: '#232323',
         fontSize: 16,
         lineHeight: 26,
         fontWeight: 'bold',
-        textAlign: 'center',
+        alignSelf: 'center',
     }
 })

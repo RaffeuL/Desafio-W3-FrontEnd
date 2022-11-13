@@ -14,7 +14,7 @@ export default function AppRoutes(){
     return(
         <NavigationContainer>
             <Stack.Navigator 
-            initialRouteName= 'BankStatementScreen'
+            initialRouteName= 'SignUp'
             screenOptions={{headerShown: false}}>
 
                 <Stack.Screen name='SignUp' component={SignUp}/>
