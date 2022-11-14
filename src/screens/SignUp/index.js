@@ -3,9 +3,11 @@ import { View, Text, StyleSheet, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function SignUp() {
     const navigation = useNavigation();
+    const user = useSelector((store) => store.user);
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
     const [password, setPassword] = useState("");
@@ -112,7 +114,7 @@ export default function SignUp() {
                 error={errors.confirmPassword}
                 onFocus={() => handleError(null, "confirmPassword")}
             />
-            <Button label={"Sign In"} onPress={validate} />
+            <Button label={"Sign Up"} onPress={validate} />
             <Button
                 label={"Log In"}
                 onPress={() => navigation.navigate("LogIn")}

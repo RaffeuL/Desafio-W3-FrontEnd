@@ -1,10 +1,15 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Keyboard } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../store/user";
+
 import Button from "../../globalComponents/Button";
 import Input from "../../globalComponents/Input";
 
 export default function LogIn() {
+    const user = useSelector((store) => store.user);
+    const dispatch = useDispatch();
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [password, setPassword] = useState("");
@@ -67,7 +72,8 @@ export default function LogIn() {
             account === "12345678" &&
             password === "12345678"
         ) {
-            navigation.navigate("TransferScreen");
+            dispatch(setUser({ name: "rafefo", age: 23 }));
+            navigation.navigate("SignUp");
         } else {
             Alert.alert("Error", "Invalid credentials");
         }
@@ -111,7 +117,7 @@ export default function LogIn() {
                     style={styles.textLink}
                     onPress={() => navigation.navigate("SignUp")}
                 >
-                    Sign In
+                    Sign Up
                 </Text>
             </View>
         </>
