@@ -10,20 +10,28 @@ import BankStatementScreen from "../screens/BankStatementScreen";
 
 const Stack = createNativeStackNavigator();
 
-export default function AppRoutes(){
-    return(
+export default function AppRoutes() {
+    return (
         <NavigationContainer>
-            <Stack.Navigator 
-            initialRouteName= 'SignUp'
-            screenOptions={{headerShown: false}}>
-
-                <Stack.Screen name='SignUp' component={SignUp}/>
-                <Stack.Screen name='LogIn' component={LogIn}/>
-                <Stack.Screen name='TransferScreen' component={TransferScreen}/>
-                <Stack.Screen name='GiftCardScreen' component={GiftCardScreen}/>
-                <Stack.Screen name='BankStatementScreen' component={BankStatementScreen}/>
-
+            <Stack.Navigator
+                initialRouteName="LogIn"
+                screenOptions={{ headerShown: false }}
+            >
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen name="LogIn" component={LogIn} />
+                <Stack.Screen
+                    name="TransferScreen"
+                    component={TransferScreen}
+                />
+                <Stack.Screen
+                    name="GiftCardScreen"
+                    component={GiftCardScreen}
+                />
+                <Stack.Screen
+                    name="BankStatementScreen"
+                    component={BankStatementScreen}
+                />
             </Stack.Navigator>
         </NavigationContainer>
-    )
+    );
 }
