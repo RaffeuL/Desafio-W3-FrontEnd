@@ -26,6 +26,7 @@ export default function SignUp() {
         const nameRegex =
             /^[a-záàâãéèêíïóôõöúçñ]+([\ a-záàâãéèêíïóôõöúçñ]+$)/gi;
         const cpfRegex = /^[0-9]{11}$/g;
+        const passwordRegex = /^(?!.(.).\1)[0-9]+$/;
 
         if (!name) {
             handleError("Please input your name", "name");
@@ -52,9 +53,15 @@ export default function SignUp() {
         if (!password) {
             handleError("Please input your password", "password");
             valid = false;
-        } else if (password.length < 8) {
+        } else if (password.length < 6) {
             handleError(
-                "The password should have more than 8 characters",
+                "The password should have more than 6 characters",
+                "password"
+            );
+            valid = false;
+        } else if (!passwordRegex.test(password)) {
+            handleError(
+                "The password should have only numbers and no repeated numbers",
                 "password"
             );
             valid = false;

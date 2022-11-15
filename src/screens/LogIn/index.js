@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../store/user";
+import { userLogin } from "../../store/user";
 
 import Button from "../../globalComponents/Button";
 import Input from "../../globalComponents/Input";
@@ -10,6 +10,7 @@ import Input from "../../globalComponents/Input";
 export default function LogIn() {
     const user = useSelector((store) => store.user);
     const dispatch = useDispatch();
+
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [password, setPassword] = useState("");
@@ -21,12 +22,13 @@ export default function LogIn() {
         setErrors((prevState) => ({ ...prevState, [input]: errorMenssage }));
     }
 
-    function validate() {
+    async function validate() {
         Keyboard.dismiss();
 
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
         const accountRegex = /^[0-9]{1,8}$/g;
+        const passwordRegex = /^(?!.(.).\1)[0-9]+$/;
 
         if (!agency) {
             handleError("Please input your agency", "agency");
@@ -53,32 +55,37 @@ export default function LogIn() {
         if (!password) {
             handleError("Please input your password", "password");
             valid = false;
-        } else if (password.length < 8) {
+        } else if (password.length < 6) {
             handleError(
-                "The password should have more than 8 characters",
+                "The password should have more than 6 characters",
+                "password"
+            );
+            valid = false;
+        } else if (!passwordRegex.test(password)) {
+            handleError(
+                "The password should have only numbers and no repeated numbers",
                 "password"
             );
             valid = false;
         }
 
         if (valid) {
-            login();
+            await login();
         }
     }
 
-    function login() {
-        if (
-            agency === "1234" &&
-            account === "12345678" &&
-            password === "12345678"
-        ) {
-            dispatch(setUser({ name: "rafefo", age: 23 }));
-            navigation.navigate("SignUp");
-        } else {
-            Alert.alert("Error", "Invalid credentials");
-        }
+    async function login() {
+        dispatch(
+            userLogin({
+                agency: agency,
+                checking_account: account,
+                password: password,
+            })
+        );
+        //console.log(response);
+        //dispatch(setUser({ name: "rafefo", age: 23 }));
+        //navigation.navigate("SignUp");
     }
-
     return (
         <>
             <View style={styles.screen}>
