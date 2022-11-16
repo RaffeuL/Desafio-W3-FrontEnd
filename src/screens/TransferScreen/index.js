@@ -3,8 +3,10 @@ import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import OptionsNavigation from "../../globalComponents/OptionsNavigation";
+import { useSelector } from "react-redux";
 
 export default function TransferScreen() {
+    const user = useSelector((state) => state.user);
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [amount, setAmount] = useState("");
@@ -15,6 +17,7 @@ export default function TransferScreen() {
     }
 
     function validate() {
+        console.log(user);
         Keyboard.dismiss();
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
@@ -62,16 +65,7 @@ export default function TransferScreen() {
         }
     }
 
-    function transfer() {
-        if (agency === "1234" && account === "12345678") {
-            Alert.alert(
-                "Success",
-                `Transfer successfully made to account ${account} with amount of R$ ${amount}`
-            );
-        } else {
-            Alert.alert("Error", "Invalid credentials");
-        }
-    }
+    function transfer() {}
 
     return (
         <>
@@ -107,6 +101,7 @@ export default function TransferScreen() {
 
                 <Button label={"Transfer"} onPress={validate} />
                 <OptionsNavigation />
+                <Text style={styles.text}>{user.balance}</Text>
             </View>
         </>
     );

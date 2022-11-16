@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
-import { userLogin } from "../../store/user";
+import { userLogin, getUserData } from "../../services/userFeatures/auth";
+import { useDispatch } from "react-redux";
+import { setUser, setToken } from "../../store/user";
 
 import Button from "../../globalComponents/Button";
 import Input from "../../globalComponents/Input";
 
 export default function LogIn() {
-    const user = useSelector((store) => store.user);
-    const dispatch = useDispatch();
+    const dispach = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
@@ -75,16 +76,26 @@ export default function LogIn() {
     }
 
     async function login() {
-        dispatch(
-            userLogin({
-                agency: agency,
-                checking_account: account,
-                password: password,
-            })
-        );
-        //console.log(response);
-        //dispatch(setUser({ name: "rafefo", age: 23 }));
-        //navigation.navigate("SignUp");
+        const tokenRequest = await userLogin({
+            agency: agency,
+            checking_account: account,
+            password: password,
+        });
+        if (tokenRequest.status === "sucess") {
+            dispach(setToken(tokenRequest.data));
+            const userRequest = await getUserData();
+            if (userRequest.status === "sucess") {
+                dispach(setUser(userRequest.data));
+                navigation.navigate("TransferScreen");
+            } else {
+                Alert.alert("Error", userRequest);
+            }
+        } else {
+            switch (tokenRequest) {
+                case "Request failed with status code 404":
+                    Alert.alert("Error", "Credentials not found");
+            }
+        }
     }
     return (
         <>
