@@ -3,18 +3,18 @@ import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 export default function AccountInfo({ showName = false }) {
-    const user = useSelector((state) => state.user);
+    const account = useSelector((state) => state.account);
 
     return (
         <View style={styles.container}>
             {showName && (
                 <Text
                     style={styles.userName}
-                >{`Bem vindo,\n${user.name}`}</Text>
+                >{`Bem vindo,\n${account.client.name}`}</Text>
             )}
             <View>
                 <Text style={styles.balanceTitle}>Balance</Text>
-                <Text style={styles.balance}>{`$ ${user.balance}`}</Text>
+                <Text style={styles.balance}>{`$ ${account.balance}`}</Text>
             </View>
         </View>
     );

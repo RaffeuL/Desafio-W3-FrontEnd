@@ -1,13 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { user: { name: "user 1", balance: "0,00" }, token: "" };
+const initialState = {
+    account: {
+        client: { name: "User Name" },
+        balance: "0,00",
+        agency: { number: "agency number" },
+    },
+    token: "",
+};
 
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser(state, action) {
-            state.user = action.payload;
+        setAccount(state, action) {
+            state.account = action.payload;
         },
         setToken(state, action) {
             state.token = action.payload;
@@ -19,5 +26,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { setUser, setToken, logoutUser } = userSlice.actions;
+export const { setAccount, setToken, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
