@@ -9,6 +9,15 @@ export async function userLogin(data) {
     }
 }
 
+export async function userLogout() {
+    try {
+        await api.post("/logout");
+        return "sucess";
+    } catch (error) {
+        return error.message;
+    }
+}
+
 export async function getUserData() {
     try {
         const response = await api.get("/authenticated");

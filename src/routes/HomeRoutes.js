@@ -1,16 +1,18 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import Home from "../screens/Home";
 import TransferScreen from "../screens/TransferScreen";
 import GiftCardScreen from "../screens/GiftCardScreen";
 import BankStatementScreen from "../screens/BankStatementScreen";
+import LogIn from "../screens/LogIn";
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function TabHome() {
+export default function HomeRoutes() {
     return (
-        <Tab.Navigator
+        <Stack.Navigator
             initialRouteName="Home"
             screenOptions={{
                 headerShown: false,
@@ -19,14 +21,15 @@ export default function TabHome() {
                 tabBarItemStyle: styles.tabBarItem,
             }}
         >
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="TransferScreen" component={TransferScreen} />
-            <Tab.Screen name="GiftCardScreen" component={GiftCardScreen} />
-            <Tab.Screen
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="TransferScreen" component={TransferScreen} />
+            <Stack.Screen name="GiftCardScreen" component={GiftCardScreen} />
+            <Stack.Screen
                 name="BankStatementScreen"
                 component={BankStatementScreen}
             />
-        </Tab.Navigator>
+            <Stack.Screen name="LogIn" component={LogIn} />
+        </Stack.Navigator>
     );
 }
 

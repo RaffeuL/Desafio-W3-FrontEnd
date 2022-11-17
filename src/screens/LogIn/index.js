@@ -86,7 +86,7 @@ export default function LogIn() {
             const userRequest = await getUserData();
             if (userRequest.status === "sucess") {
                 dispach(setUser(userRequest.data));
-                navigation.navigate("TransferScreen");
+                navigation.replace("HomeRoutes");
             } else {
                 Alert.alert("Error", userRequest);
             }

@@ -2,10 +2,21 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Card from "../../globalComponents/Card";
-import Top from "../../globalComponents/Top";
+
+import { useDispatch } from "react-redux";
+import { userLogout } from "../../services/userFeatures/auth";
+import { logoutUser } from "../../store/user";
 
 export default function Home() {
     const navigation = useNavigation();
+    const dispach = useDispatch();
+    async function logout() {
+        const response = await userLogout();
+        if (response == "sucess") {
+            dispach(logoutUser());
+            navigation.replace("LogIn");
+        }
+    }
 
     return (
         <>
@@ -14,24 +25,26 @@ export default function Home() {
                     <Card
                         iconName={"card-giftcard"}
                         label={"Gift Card"}
-                        onPress={() => console.log("gift card")}
+                        onPress={() => navigation.navigate("GiftCardScreen")}
                     />
                     <Card
                         iconName={"attach-money"}
                         label={"Transfer"}
-                        onPress={() => console.log("transfer")}
+                        onPress={() => navigation.navigate("TransferScreen")}
                     />
                 </View>
                 <View style={styles.tileCard}>
                     <Card
                         iconName={"account-balance"}
                         label={"Bank Statement"}
-                        onPress={() => console.log("bank statement")}
+                        onPress={() =>
+                            navigation.navigate("BankStatementScreen")
+                        }
                     />
                     <Card
                         iconName={"logout"}
                         label={"Logout"}
-                        onPress={() => console.log("logout")}
+                        onPress={logout}
                     />
                 </View>
             </View>
