@@ -45,7 +45,11 @@ export default function HomeRoutes() {
                 name="BankStatementScreen"
                 component={BankStatementScreen}
             />
-            <Stack.Screen name="LogIn" component={LogIn} />
+            <Stack.Screen
+                name="LogIn"
+                component={LogIn}
+                options={{ headerShown: false }}
+            />
         </Stack.Navigator>
     );
 }

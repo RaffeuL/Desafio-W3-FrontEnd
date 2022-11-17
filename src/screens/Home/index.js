@@ -1,16 +1,33 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import Card from "../../globalComponents/Card";
 
-import { useDispatch } from "react-redux";
-import { userLogout } from "../../services/userFeatures/auth";
-import { logoutUser } from "../../store/user";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData, userLogout } from "../../services/userFeatures/auth";
+import { logoutUser, setAccount } from "../../store/user";
 import AccountInfo from "../../globalComponents/AccountInfo";
 
 export default function Home() {
-    const navigation = useNavigation();
     const dispach = useDispatch();
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const trigger = async () => {
+            await getAccountData();
+        };
+
+        trigger();
+        console.log("useEffect");
+    }, []);
+
+    async function getAccountData() {
+        const response = await getUserData();
+        if (response.status == "sucess") {
+            dispach(setAccount(response.data));
+        }
+    }
+
     async function logout() {
         const response = await userLogout();
         if (response == "sucess") {

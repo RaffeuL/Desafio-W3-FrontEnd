@@ -28,7 +28,7 @@ export default function LogIn() {
 
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
-        const accountRegex = /^[0-9]{1,8}$/g;
+        const accountRegex = /^[0-9]{6,}$/g;
         const passwordRegex = /^(?!.(.).\1)[0-9]+$/;
 
         if (!agency) {
@@ -47,7 +47,7 @@ export default function LogIn() {
             valid = false;
         } else if (!accountRegex.test(account)) {
             handleError(
-                "Account Number cannot contain letters and should have 8 digits or less",
+                "Account Number cannot contain letters and should have 6 digits or more",
                 "account"
             );
             valid = false;
