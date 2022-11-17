@@ -141,7 +141,6 @@ export default function GiftCardScreen() {
                     </Text>
                 )}
                 <Button label={"Transfer"} onPress={validate} />
-                <OptionsNavigation />
             </View>
         </>
     );

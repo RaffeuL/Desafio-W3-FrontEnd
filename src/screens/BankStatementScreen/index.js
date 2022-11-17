@@ -137,7 +137,6 @@ export default function BankStatementScreen() {
                     error={errors.finalDate}
                 />
                 <Button label={"Check"} onPress={validate} />
-                <OptionsNavigation />
             </View>
         </>
     );

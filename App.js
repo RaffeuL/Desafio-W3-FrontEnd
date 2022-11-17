@@ -7,8 +7,8 @@ import { Provider } from "react-redux";
 export default function App() {
     return (
         <Provider store={store}>
+            <StatusBar style="light" />
             <SafeAreaView style={{ flex: 1 }}>
-                <StatusBar style="light" />
                 <AppRoutes />
             </SafeAreaView>
         </Provider>
