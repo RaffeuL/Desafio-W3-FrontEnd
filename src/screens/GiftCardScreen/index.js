@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
-import OptionsNavigation from "../../globalComponents/OptionsNavigation";
+import AccountInfo from "../../globalComponents/AccountInfo";
 
 export default function GiftCardScreen() {
     const [agency, setAgency] = useState("");
@@ -84,8 +84,9 @@ export default function GiftCardScreen() {
     }
 
     return (
-        <>
-            <View style={styles.screen}>
+        <View style={styles.screen}>
+            <AccountInfo />
+            <View style={styles.inputs}>
                 <Text style={styles.text}>Gift Card Screen</Text>
                 <Input
                     placeholder={"Agency"}
@@ -142,7 +143,7 @@ export default function GiftCardScreen() {
                 )}
                 <Button label={"Transfer"} onPress={validate} />
             </View>
-        </>
+        </View>
     );
 }
 
@@ -152,6 +153,13 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         justifyContent: "center",
+        alignItems: "center",
+    },
+    inputs: {
+        padding: 20,
+        width: "90%",
+        backgroundColor: "#474743",
+        borderRadius: 10,
     },
     text: {
         color: "#FFB400",

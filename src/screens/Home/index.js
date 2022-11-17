@@ -6,6 +6,7 @@ import Card from "../../globalComponents/Card";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../services/userFeatures/auth";
 import { logoutUser } from "../../store/user";
+import AccountInfo from "../../globalComponents/AccountInfo";
 
 export default function Home() {
     const navigation = useNavigation();
@@ -21,6 +22,7 @@ export default function Home() {
     return (
         <>
             <View style={styles.screen}>
+                <AccountInfo showName={true} />
                 <View style={styles.tileCard}>
                     <Card
                         iconName={"card-giftcard"}
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: "#232323",
         height: "100%",
+        justifyContent: "center",
     },
 
     tileCard: {

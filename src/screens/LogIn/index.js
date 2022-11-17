@@ -83,17 +83,15 @@ export default function LogIn() {
         });
         if (tokenRequest.status === "sucess") {
             dispach(setToken(tokenRequest.data));
-            const userRequest = await getUserData();
-            if (userRequest.status === "sucess") {
-                dispach(setUser(userRequest.data));
-                navigation.replace("HomeRoutes");
-            } else {
-                Alert.alert("Error", userRequest);
-            }
+            navigation.replace("HomeRoutes");
         } else {
             switch (tokenRequest) {
                 case "Request failed with status code 404":
-                    Alert.alert("Error", "Credentials not found");
+                    Alert.alert("Error", "Invalid credentials");
+                    break;
+                case "Request failed with status code 401":
+                    Alert.alert("Error", "Not authorized");
+                    break;
             }
         }
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "../screens/Home";
@@ -8,20 +8,37 @@ import GiftCardScreen from "../screens/GiftCardScreen";
 import BankStatementScreen from "../screens/BankStatementScreen";
 import LogIn from "../screens/LogIn";
 
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 const Stack = createNativeStackNavigator();
 
 export default function HomeRoutes() {
+    const navigation = useNavigation();
     return (
         <Stack.Navigator
             initialRouteName="Home"
             screenOptions={{
-                headerShown: false,
-                tabBarStyle: styles.tabBar,
-                tabBarLabelStyle: styles.tabBarLabel,
-                tabBarItemStyle: styles.tabBarItem,
+                headerTitleAlign: "center",
+                headerStyle: { backgroundColor: "black" },
+                headerTitleStyle: { color: "white" },
+                headerIconColor: "#484848",
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <MaterialIcons
+                            name="arrow-back"
+                            size={26}
+                            color="white"
+                        />
+                    </TouchableOpacity>
+                ),
             }}
         >
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{ headerShown: false }}
+            />
             <Stack.Screen name="TransferScreen" component={TransferScreen} />
             <Stack.Screen name="GiftCardScreen" component={GiftCardScreen} />
             <Stack.Screen
@@ -32,29 +49,3 @@ export default function HomeRoutes() {
         </Stack.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    tabBar: {
-        position: "absolute",
-        bottom: 0,
-        height: 80,
-        backgroundColor: "white",
-        borderTopStartRadius: 30,
-        borderTopEndRadius: 30,
-        borderWidth: 1,
-        borderColor: "#ddd",
-        borderTopWidth: 2,
-        shadowColor: "#000000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.9,
-        shadowRadius: 30,
-        elevation: 3,
-    },
-    tabBarLabel: {
-        fontSize: 10,
-        fontFamily: "MontserratBold",
-    },
-    tabBarItem: {
-        paddingVertical: 5,
-    },
-});

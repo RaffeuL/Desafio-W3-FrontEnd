@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
-import OptionsNavigation from "../../globalComponents/OptionsNavigation";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../store/user";
 
 export default function TransferScreen() {
     const user = useSelector((state) => state.user);

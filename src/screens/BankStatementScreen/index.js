@@ -3,8 +3,6 @@ import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import DateSelector from "./components/DateSelector";
-import OptionsNavigation from "../../globalComponents/OptionsNavigation";
-
 export default function BankStatementScreen() {
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
