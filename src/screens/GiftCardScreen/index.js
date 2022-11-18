@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import {
+    getStoresList,
+    buyGiftCard,
+} from "../../services/bankFeatures/gitCard";
+import { useSelector } from "react-redux";
 
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import AccountInfo from "../../globalComponents/AccountInfo";
 
 export default function GiftCardScreen() {
+    const userAccount = useSelector((state) => state.account);
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [amount, setAmout] = useState("");
@@ -20,15 +26,28 @@ export default function GiftCardScreen() {
     const [selectedStore, setSelectedStore] = useState("");
     const [errors, setErrors] = useState({});
 
+    useEffect(() => {
+        async function getStores() {
+            const response = await getStoresList();
+            if (response.status == "sucess") {
+                setStores(response.data);
+            } else {
+                Alert.alert(response);
+            }
+        }
+
+        getStores();
+    }, []);
+
     function handleError(errorMenssage, input) {
         setErrors((prevState) => ({ ...prevState, [input]: errorMenssage }));
     }
 
-    function validate() {
+    async function validate() {
         Keyboard.dismiss();
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
-        const accountRegex = /^[0-9]{1,8}$/g;
+        const accountRegex = /^[0-9]{6,}$/g;
         const amountRegex = /^[0-9]{1,}$/g;
 
         if (!agency) {
@@ -47,7 +66,7 @@ export default function GiftCardScreen() {
             valid = false;
         } else if (!accountRegex.test(account)) {
             handleError(
-                "Account Number cannot contain letters and should have 8 digits",
+                "Account Number cannot contain letters and should have 6 digits or more",
                 "account"
             );
             valid = false;
@@ -62,22 +81,37 @@ export default function GiftCardScreen() {
         } else if (!amountRegex.test(amount)) {
             handleError("Amount cannot contain letters or simbols", "amount");
             valid = false;
+        } else if (amount > 10) {
+            handleError("Insufficient funds", "amount");
+            valid = false;
         }
         if (!selectedStore) {
             handleError("Please select a store", "store");
             valid = false;
         }
         if (valid) {
-            transfer();
+            await buy();
         }
     }
 
-    function transfer() {
-        if (agency === "1234" && account === "12345678") {
-            Alert.alert(
-                "Success",
-                `Gift Card of $${amount} successfully purchased  in ${selectedStore} store`
-            );
+    function validadeMyAccount() {
+        if (
+            agency == userAccount.agency.number &&
+            account == userAccount.account_number
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    async function buy() {
+        if (validadeMyAccount()) {
+            const response = await buyGiftCard(selectedStore, amount);
+            if (response.status == "sucess") {
+                Alert.alert("Gift Card bought sucessfully", response.data);
+            } else {
+                Alert.alert(response);
+            }
         } else {
             Alert.alert("Error", "Invalid credentials");
         }
@@ -129,9 +163,9 @@ export default function GiftCardScreen() {
                     {stores.map((store) => {
                         return (
                             <Picker.Item
-                                label={store}
-                                value={store}
-                                key={store}
+                                label={store.name}
+                                value={store.id}
+                                key={store.id}
                             />
                         );
                     })}
@@ -141,7 +175,7 @@ export default function GiftCardScreen() {
                         {errors.store}
                     </Text>
                 )}
-                <Button label={"Transfer"} onPress={validate} />
+                <Button label={"Buy Gift Card"} onPress={validate} />
             </View>
         </View>
     );

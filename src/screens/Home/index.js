@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import Card from "../../globalComponents/Card";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUserData, userLogout } from "../../services/userFeatures/auth";
 import { logoutUser, setAccount } from "../../store/user";
 import AccountInfo from "../../globalComponents/AccountInfo";
@@ -18,7 +18,6 @@ export default function Home() {
         };
 
         trigger();
-        console.log("useEffect");
     }, []);
 
     async function getAccountData() {
