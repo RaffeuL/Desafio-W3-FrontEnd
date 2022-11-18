@@ -14,9 +14,9 @@ export default function Home() {
     const navigation = useNavigation();
 
     useEffect(() => {
-        const trigger = async () => {
+        async function trigger() {
             await getAccountData();
-        };
+        }
 
         trigger();
     }, []);

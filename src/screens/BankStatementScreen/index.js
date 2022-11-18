@@ -1,8 +1,20 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    Alert,
+    Keyboard,
+    Modal,
+    FlatList,
+} from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import DateSelector from "./components/DateSelector";
+import StatementList from "./components/StatementList";
+import { getStatement } from "../../services/bankFeatures/statement";
+import Statement from "./components/Statement";
+
 export default function BankStatementScreen() {
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
@@ -12,6 +24,9 @@ export default function BankStatementScreen() {
 
     const [initialDate, setInitialDate] = useState();
     const [finalDate, setFinalDate] = useState();
+
+    const [statementList, setStatmentList] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [errors, setErrors] = useState({});
 
@@ -40,11 +55,11 @@ export default function BankStatementScreen() {
         }
     }
 
-    function validate() {
+    async function validate() {
         Keyboard.dismiss();
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
-        const accountRegex = /^[0-9]{1,8}$/g;
+        const accountRegex = /^[0-9]{6,}$/g;
 
         if (!agency) {
             handleError("Please input the agency", "agency");
@@ -62,7 +77,7 @@ export default function BankStatementScreen() {
             valid = false;
         } else if (!accountRegex.test(account)) {
             handleError(
-                "Account Number cannot contain letters and should have 8 digits",
+                "Account Number cannot contain letters and should have 6 digits or more",
                 "account"
             );
             valid = false;
@@ -84,22 +99,32 @@ export default function BankStatementScreen() {
         }
 
         if (valid) {
-            statement();
+            await statement();
         }
     }
 
-    function statement() {
-        if (agency === "1234" && account === "12345678") {
-            Alert.alert("Statement", `R$ 1000,00`);
-        } else {
-            Alert.alert("Error", "Invalid credentials");
+    function formatDate(date) {
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        return `${year}-${month}-${day}`;
+    }
+
+    async function statement() {
+        const response = await getStatement(
+            formatDate(initialDate),
+            formatDate(finalDate)
+        );
+        if (response.status == "sucess") {
+            setStatmentList(response.data);
+            setModalVisible(true);
         }
     }
 
     return (
         <>
             <View style={styles.screen}>
-                <Text style={styles.text}>Bank Statement Screen</Text>
                 <Input
                     placeholder={"Agency"}
                     onChangeText={setAgency}
@@ -134,6 +159,30 @@ export default function BankStatementScreen() {
                     onPress={() => showMode(false)}
                     error={errors.finalDate}
                 />
+                <View style={styles.modalCenter}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.modalView}>
+                            <FlatList
+                                data={statementList}
+                                keyExtractor={(statement) => statement.id}
+                                renderItem={(statement) => (
+                                    <Statement statement={statement.item} />
+                                )}
+                            />
+                            <Button
+                                label={"Fechar"}
+                                onPress={() => setModalVisible(false)}
+                            />
+                        </View>
+                    </Modal>
+                </View>
                 <Button label={"Check"} onPress={validate} />
             </View>
         </>
@@ -150,5 +199,14 @@ const styles = StyleSheet.create({
     text: {
         color: "#FFB400",
         textAlign: "center",
+    },
+    modalCenter: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        width: "90%",
+    },
+    modalView: {
+        backgroundColor: "black",
     },
 });
