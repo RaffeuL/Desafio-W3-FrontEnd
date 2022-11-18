@@ -81,7 +81,7 @@ export default function GiftCardScreen() {
         } else if (!amountRegex.test(amount)) {
             handleError("Amount cannot contain letters or simbols", "amount");
             valid = false;
-        } else if (amount > 10) {
+        } else if (amount > userAccount.balance) {
             handleError("Insufficient funds", "amount");
             valid = false;
         }
@@ -108,7 +108,7 @@ export default function GiftCardScreen() {
         if (validadeMyAccount()) {
             const response = await buyGiftCard(selectedStore, amount);
             if (response.status == "sucess") {
-                Alert.alert("Gift Card bought sucessfully", response.data);
+                Alert.alert("Sucess", response.data);
             } else {
                 Alert.alert(response);
             }

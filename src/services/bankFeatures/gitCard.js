@@ -21,7 +21,7 @@ export async function buyGiftCard(giftCardId, value) {
             gift_card_id: giftCardId,
             value: value,
         });
-        return { status: "sucess", data: response.data };
+        return { status: "sucess", data: response.data.message };
     } catch (error) {
         return error.message;
     }
