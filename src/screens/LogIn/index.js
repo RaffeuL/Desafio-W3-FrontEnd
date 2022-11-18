@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Alert, Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { userLogin, getUserData } from "../../services/userFeatures/auth";
-import { useDispatch } from "react-redux";
-import { setUser, setToken } from "../../store/user";
+import { userLogin } from "../../services/userFeatures/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Button from "../../globalComponents/Button";
 import Input from "../../globalComponents/Input";
 
 export default function LogIn() {
-    const dispach = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        async function tryLogin() {
+            const token = await AsyncStorage.getItem("token");
+            if (token) {
+                navigation.replace("HomeRoutes");
+            }
+            return;
+        }
+
+        tryLogin();
+    });
 
     const navigation = useNavigation();
 
@@ -82,7 +92,7 @@ export default function LogIn() {
             password: password,
         });
         if (tokenRequest.status === "sucess") {
-            dispach(setToken(tokenRequest.data));
+            await AsyncStorage.setItem("token", tokenRequest.data);
             navigation.replace("HomeRoutes");
         } else {
             switch (tokenRequest) {

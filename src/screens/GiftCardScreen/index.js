@@ -18,7 +18,7 @@ export default function GiftCardScreen() {
     const dispatch = useDispatch();
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
-    const [amount, setAmout] = useState("");
+    const [value, setValue] = useState("");
     const [stores, setStores] = useState([
         "Americanas",
         "Submarino",
@@ -51,7 +51,7 @@ export default function GiftCardScreen() {
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
         const accountRegex = /^[0-9]{6,}$/g;
-        const amountRegex = /^[0-9]{1,}$/g;
+        const valueRegex = /^[0-9]{1,}$/g;
 
         if (!agency) {
             handleError("Please input the agency", "agency");
@@ -75,16 +75,16 @@ export default function GiftCardScreen() {
             valid = false;
         }
 
-        if (!amount) {
+        if (!value) {
             handleError("Please input the amount", "amount");
             valid = false;
-        } else if (amount <= 0) {
+        } else if (value <= 0) {
             handleError("Amount cannot be negative or null", "amount");
             valid = false;
-        } else if (!amountRegex.test(amount)) {
+        } else if (!valueRegex.test(value)) {
             handleError("Amount cannot contain letters or simbols", "amount");
             valid = false;
-        } else if (amount > userAccount.balance) {
+        } else if (value > userAccount.balance) {
             handleError("Insufficient funds", "amount");
             valid = false;
         }
@@ -109,7 +109,7 @@ export default function GiftCardScreen() {
 
     async function buy() {
         if (validadeMyAccount()) {
-            const response = await buyGiftCard(selectedStore, amount);
+            const response = await buyGiftCard(selectedStore, value);
             if (response.status == "sucess") {
                 const newBalance = await getBalance();
                 dispatch(updadeBalance(newBalance.data));
@@ -146,12 +146,12 @@ export default function GiftCardScreen() {
                     }}
                 />
                 <Input
-                    placeholder={"Amount"}
-                    onChangeText={setAmout}
+                    placeholder={"Value"}
+                    onChangeText={setValue}
                     keyboardType={"numeric"}
-                    error={errors.amount}
+                    error={errors.value}
                     onFocus={() => {
-                        handleError(null, "amount");
+                        handleError(null, "value");
                     }}
                 />
                 <Picker

@@ -6,7 +6,6 @@ const initialState = {
         balance: "0,00",
         agency: { number: "agency number" },
     },
-    token: "",
 };
 
 const userSlice = createSlice({
@@ -15,9 +14,6 @@ const userSlice = createSlice({
     reducers: {
         setAccount(state, action) {
             state.account = action.payload;
-        },
-        setToken(state, action) {
-            state.token = action.payload;
         },
         logoutUser(state) {
             state.account = {};
@@ -29,6 +25,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { setAccount, setToken, logoutUser, updadeBalance } =
-    userSlice.actions;
+export const { setAccount, logoutUser, updadeBalance } = userSlice.actions;
 export default userSlice.reducer;
