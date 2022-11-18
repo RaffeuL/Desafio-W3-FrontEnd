@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getUserData, userLogout } from "../../services/userFeatures/auth";
 import { logoutUser, setAccount } from "../../store/user";
 import AccountInfo from "../../globalComponents/AccountInfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
     const dispach = useDispatch();
@@ -31,6 +32,7 @@ export default function Home() {
         const response = await userLogout();
         if (response == "sucess") {
             dispach(logoutUser());
+            await AsyncStorage.clear();
             navigation.replace("LogIn");
         }
     }

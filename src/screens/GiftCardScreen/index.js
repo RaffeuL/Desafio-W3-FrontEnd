@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import AccountInfo from "../../globalComponents/AccountInfo";
-import { updadeBalance } from "../../store/user";
+import { updateBalance } from "../../store/user";
 import { getBalance } from "../../services/userFeatures/account";
 
 export default function GiftCardScreen() {
+    const [isLoading, setIsLoading] = useState(false);
     const userAccount = useSelector((state) => state.account);
     const dispatch = useDispatch();
     const [agency, setAgency] = useState("");
@@ -112,7 +113,7 @@ export default function GiftCardScreen() {
             const response = await buyGiftCard(selectedStore, value);
             if (response.status == "sucess") {
                 const newBalance = await getBalance();
-                dispatch(updadeBalance(newBalance.data));
+                dispatch(updateBalance(newBalance.data));
                 Alert.alert("Sucess", response.data);
             } else {
                 Alert.alert(response);
@@ -126,7 +127,6 @@ export default function GiftCardScreen() {
         <View style={styles.screen}>
             <AccountInfo />
             <View style={styles.inputs}>
-                <Text style={styles.text}>Gift Card Screen</Text>
                 <Input
                     placeholder={"Agency"}
                     onChangeText={setAgency}

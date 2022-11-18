@@ -17,13 +17,12 @@ const userSlice = createSlice({
         },
         logoutUser(state) {
             state.account = {};
-            state.token = "";
         },
-        updadeBalance(state, action) {
+        updateBalance(state, action) {
             state.account.balance = action.payload;
         },
     },
 });
 
-export const { setAccount, logoutUser, updadeBalance } = userSlice.actions;
+export const { setAccount, logoutUser, updateBalance } = userSlice.actions;
 export default userSlice.reducer;

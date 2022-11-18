@@ -8,3 +8,12 @@ export async function getBalance() {
         return error.message;
     }
 }
+
+export async function makeTransference(data) {
+    try {
+        await api.post("/transference", data);
+        return "sucess";
+    } catch (error) {
+        return error.message;
+    }
+}

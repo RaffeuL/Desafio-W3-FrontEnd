@@ -3,10 +3,16 @@ import { Text, View, StyleSheet, Alert, Keyboard } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import { useSelector, useDispatch } from "react-redux";
+import AccountInfo from "../../globalComponents/AccountInfo";
+import {
+    getBalance,
+    makeTransference,
+} from "../../services/userFeatures/account";
+import { updateBalance } from "../../store/user";
 
 export default function TransferScreen() {
-    const user = useSelector((state) => state.user);
-    const dispach = useDispatch();
+    const userAccount = useSelector((state) => state.account);
+    const dispatch = useDispatch();
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [amount, setAmount] = useState("");
@@ -16,7 +22,7 @@ export default function TransferScreen() {
         setErrors((prevState) => ({ ...prevState, [input]: errorMenssage }));
     }
 
-    function validate() {
+    async function validate() {
         Keyboard.dismiss();
         let valid = true;
         const agencyRegex = /^[0-9]{1,4}$/g;
@@ -39,7 +45,7 @@ export default function TransferScreen() {
             valid = false;
         } else if (!accountRegex.test(account)) {
             handleError(
-                "Account Number cannot contain letters and should have 8 digits",
+                "Account Number cannot contain letters and should have 6 digits or more",
                 "account"
             );
             valid = false;
@@ -57,49 +63,67 @@ export default function TransferScreen() {
                 "amount"
             );
             valid = false;
+        } else if (amount > userAccount.balance) {
+            handleError("Insufficient funds", "amount");
+            valid = false;
         }
 
         if (valid) {
-            transfer();
+            await transfer();
         }
     }
 
-    function transfer() {}
+    async function transfer() {
+        const response = await makeTransference({
+            destiny_account_number: account,
+            destiny_agency_number: agency,
+            value: amount,
+        });
+
+        if (response == "sucess") {
+            const newBalance = await getBalance();
+            dispatch(updateBalance(newBalance.data));
+            Alert.alert("Transfer sucessful");
+        } else {
+            Alert.alert(response);
+        }
+    }
 
     return (
         <>
             <View style={styles.screen}>
-                <Text style={styles.text}>TransferScreen</Text>
-                <Input
-                    placeholder={"Agency"}
-                    onChangeText={setAgency}
-                    keyboardType={"numeric"}
-                    error={errors.agency}
-                    onFocus={() => {
-                        handleError(null, "agency");
-                    }}
-                />
-                <Input
-                    placeholder={"Account Number"}
-                    onChangeText={setAccount}
-                    keyboardType={"numeric"}
-                    error={errors.account}
-                    onFocus={() => {
-                        handleError(null, "account");
-                    }}
-                />
-                <Input
-                    placeholder={"Amount"}
-                    onChangeText={setAmount}
-                    keyboardType={"numeric"}
-                    error={errors.amount}
-                    onFocus={() => {
-                        handleError(null, "amount");
-                    }}
-                />
+                <AccountInfo />
+                <View style={styles.inputs}>
+                    <Input
+                        placeholder={"Agency"}
+                        onChangeText={setAgency}
+                        keyboardType={"numeric"}
+                        error={errors.agency}
+                        onFocus={() => {
+                            handleError(null, "agency");
+                        }}
+                    />
+                    <Input
+                        placeholder={"Account Number"}
+                        onChangeText={setAccount}
+                        keyboardType={"numeric"}
+                        error={errors.account}
+                        onFocus={() => {
+                            handleError(null, "account");
+                        }}
+                    />
+                    <Input
+                        placeholder={"Amount"}
+                        onChangeText={setAmount}
+                        keyboardType={"numeric"}
+                        error={errors.amount}
+                        onFocus={() => {
+                            handleError(null, "amount");
+                        }}
+                    />
 
-                <Button label={"Transfer"} onPress={validate} />
-                <Text style={styles.text}>{user.balance}</Text>
+                    <Button label={"Transfer"} onPress={validate} />
+                </View>
             </View>
         </>
     );
@@ -111,9 +135,16 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         justifyContent: "center",
+        alignItems: "center",
     },
     text: {
         color: "#FFB400",
         textAlign: "center",
+    },
+    inputs: {
+        padding: 20,
+        width: "90%",
+        backgroundColor: "#474743",
+        borderRadius: 10,
     },
 });
