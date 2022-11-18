@@ -20,11 +20,15 @@ const userSlice = createSlice({
             state.token = action.payload;
         },
         logoutUser(state) {
-            state.user = {};
+            state.account = {};
             state.token = "";
+        },
+        updadeBalance(state, action) {
+            state.account.balance = action.payload;
         },
     },
 });
 
-export const { setAccount, setToken, logoutUser } = userSlice.actions;
+export const { setAccount, setToken, logoutUser, updadeBalance } =
+    userSlice.actions;
 export default userSlice.reducer;

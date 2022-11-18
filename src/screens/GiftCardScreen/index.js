@@ -5,14 +5,17 @@ import {
     getStoresList,
     buyGiftCard,
 } from "../../services/bankFeatures/gitCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import AccountInfo from "../../globalComponents/AccountInfo";
+import { updadeBalance } from "../../store/user";
+import { getBalance } from "../../services/userFeatures/account";
 
 export default function GiftCardScreen() {
     const userAccount = useSelector((state) => state.account);
+    const dispatch = useDispatch();
     const [agency, setAgency] = useState("");
     const [account, setAccount] = useState("");
     const [amount, setAmout] = useState("");
@@ -108,6 +111,8 @@ export default function GiftCardScreen() {
         if (validadeMyAccount()) {
             const response = await buyGiftCard(selectedStore, amount);
             if (response.status == "sucess") {
+                const newBalance = await getBalance();
+                dispatch(updadeBalance(newBalance.data));
                 Alert.alert("Sucess", response.data);
             } else {
                 Alert.alert(response);
