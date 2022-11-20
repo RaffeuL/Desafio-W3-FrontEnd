@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text } from "react-native";
 import Card from "../../globalComponents/Card";
 
 import { useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Home() {
     const dispach = useDispatch();
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function trigger() {
@@ -25,6 +26,7 @@ export default function Home() {
         const response = await getUserData();
         if (response.status == "sucess") {
             dispach(setAccount(response.data));
+            setIsLoading(false);
         }
     }
 
@@ -35,6 +37,14 @@ export default function Home() {
             await AsyncStorage.clear();
             navigation.replace("LogIn");
         }
+    }
+
+    if (isLoading) {
+        return (
+            <View style={styles.screen}>
+                <Text style={styles.text}>Loading...</Text>
+            </View>
+        );
     }
 
     return (
@@ -84,5 +94,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginHorizontal: 16,
         marginVertical: 16,
+    },
+    text: {
+        color: "white",
     },
 });

@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    account: {
-        client: { name: "User Name" },
-        balance: "0,00",
-        agency: { number: "agency number" },
-    },
+    account: null,
 };
 
 const userSlice = createSlice({

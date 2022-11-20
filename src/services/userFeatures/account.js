@@ -17,3 +17,12 @@ export async function makeTransference(data) {
         return error.message;
     }
 }
+
+export async function openAccount(data) {
+    try {
+        const response = await api.post("/openFirstCheckingAccount", data);
+        return { status: "sucess", data: response.data };
+    } catch (error) {
+        return error.message;
+    }
+}

@@ -14,6 +14,7 @@ export default function LogIn() {
     const [account, setAccount] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
+    const navigation = useNavigation();
 
     useEffect(() => {
         async function tryLogin() {
@@ -26,8 +27,6 @@ export default function LogIn() {
 
         tryLogin();
     });
-
-    const navigation = useNavigation();
 
     function handleError(errorMenssage, input) {
         setErrors((prevState) => ({ ...prevState, [input]: errorMenssage }));

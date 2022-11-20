@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Keyboard } from "react-native";
+import { View, Text, StyleSheet, Keyboard, Alert } from "react-native";
 import Input from "../../globalComponents/Input";
 import Button from "../../globalComponents/Button";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { openAccount } from "../../services/userFeatures/account";
 
 export default function SignUp() {
     const navigation = useNavigation();
-    const user = useSelector((store) => store.user);
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
     const [password, setPassword] = useState("");
@@ -18,7 +17,7 @@ export default function SignUp() {
         setErrors((prevState) => ({ ...prevState, [input]: errorMenssage }));
     }
 
-    function validate() {
+    async function validate() {
         Keyboard.dismiss();
 
         let valid = true;
@@ -73,17 +72,24 @@ export default function SignUp() {
         }
 
         if (valid) {
-            signIn();
+            await signIn();
         }
     }
 
-    function signIn() {
-        const user = {
+    async function signIn() {
+        const resposne = await openAccount({
             name: name,
+            birth_date: "1999-01-01",
             cpf: cpf,
             password: password,
-        };
-        navigation.navigate("TransferScreen");
+            email: "email@email.com",
+        });
+        if (resposne.status == "sucess") {
+            Alert.alert("Sucess", resposne.data.message);
+        } else {
+            Alert.alert(resposne);
+        }
+        //navigation.navigate("TransferScreen");
     }
 
     return (
