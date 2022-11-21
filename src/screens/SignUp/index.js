@@ -89,12 +89,11 @@ export default function SignUp() {
         } else {
             Alert.alert(resposne);
         }
-        //navigation.navigate("TransferScreen");
     }
 
     return (
         <View style={styles.screen}>
-            <Text style={styles.text}>Pagina de Cadastro</Text>
+            <Text style={styles.text}>Sign Up</Text>
             <Input
                 placeholder={"Name"}
                 iconName={"account-circle"}
