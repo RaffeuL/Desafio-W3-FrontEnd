@@ -24,7 +24,7 @@ export default function AccountInfo({ showName = false }) {
             {showName && (
                 <Text
                     style={styles.userName}
-                >{`Bem vindo,\n${account?.client?.name}`}</Text>
+                >{`Welcome,\n${account?.client?.name}`}</Text>
             )}
             <View>
                 <Text style={styles.balanceTitle}>Balance</Text>
